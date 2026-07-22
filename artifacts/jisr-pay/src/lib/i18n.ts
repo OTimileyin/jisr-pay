@@ -71,6 +71,14 @@ export const strings = {
     // Payment complete actions
     sendAnother: 'Send Another Payment',
     viewHistory: 'View Your History',
+    downloadReceipt: 'Download Receipt',
+    // Navigation
+    navHome: 'Home',
+    navHowItWorks: 'How It Works',
+    launchApp: 'Launch App',
+    openApp: 'Open App',
+    ctaTitle: 'Ready to send money the fast way?',
+    ctaBody: 'Connect a Stellar wallet and settle a cross-border payment in about five seconds — AI-routed and verifiable on-chain.',
     // How it works
     hiwTitle: 'How It Works',
     hiwSubtitle: 'Three AI agents turn a cross-border payment into a five-second, on-chain settlement.',
@@ -155,6 +163,14 @@ export const strings = {
     // Payment complete actions
     sendAnother: 'إرسال دفعة أخرى',
     viewHistory: 'عرض سجلك',
+    downloadReceipt: 'تنزيل الإيصال',
+    // Navigation
+    navHome: 'الرئيسية',
+    navHowItWorks: 'كيف يعمل',
+    launchApp: 'افتح التطبيق',
+    openApp: 'افتح التطبيق',
+    ctaTitle: 'جاهز لإرسال الأموال بالطريقة السريعة؟',
+    ctaBody: 'اربط محفظة ستيلار وأتمم تحويلاً عبر الحدود في نحو خمس ثوانٍ — موجَّه بالذكاء الاصطناعي وقابل للتحقق على البلوكتشين.',
     // How it works
     hiwTitle: 'كيف يعمل',
     hiwSubtitle: 'ثلاثة وكلاء بالذكاء الاصطناعي يحوّلون التحويل عبر الحدود إلى تسوية على البلوكتشين خلال خمس ثوانٍ.',

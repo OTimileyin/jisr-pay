@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, Search, Activity, Link as LinkIcon, AlertCircle,
   CheckCircle, Loader2, Copy, ExternalLink, ChevronDown, Check,
-  RefreshCw, History
+  RefreshCw, History, Download
 } from 'lucide-react';
 import { useI18nContext } from '@/contexts/I18nContext';
 import { useToast } from '@/hooks/use-toast';
@@ -284,6 +284,42 @@ export function AgentPipeline() {
   const numAmount = Number(amount) || 0;
   const savingsAmount = worstCorridor ? calculateTotal(worstCorridor, numAmount) - calculateTotal(bestCorridor, numAmount) : 0;
   const savingsPercent = worstCorridor ? (savingsAmount / calculateTotal(worstCorridor, numAmount)) * 100 : 0;
+
+  const handleDownloadReceipt = () => {
+    if (!txResult) return;
+    const lines = [
+      'JISR PAY — PAYMENT RECEIPT',
+      '='.repeat(40),
+      `Status:            Settled`,
+      `Date:              ${new Date().toISOString()}`,
+      '',
+      `Amount sent:       ${amount} ${currency}`,
+      `Recipient:         ${recipient}`,
+      `Resolved address:  ${resolvedKey ?? 'n/a'}`,
+      `Sender address:    ${senderKey ?? 'n/a'}`,
+      '',
+      `Transaction hash:  ${txResult.hash}`,
+      `Ledger:            ${txResult.ledger}`,
+      `Fee paid:          ${txResult.feePaid}`,
+      `Settlement time:   ${(txResult.settlementTimeMs / 1000).toFixed(1)}s`,
+      `Savings vs. bank wire: $${savingsAmount.toFixed(2)} (${savingsPercent.toFixed(0)}%)`,
+      '',
+      `Network:           Stellar Testnet`,
+      `Contract:          ${CONTRACT_ID}`,
+      `Verify at:         https://stellar.expert/explorer/testnet/tx/${txResult.hash}`,
+      '='.repeat(40),
+    ];
+    const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `jisr-pay-receipt-${txResult.hash.slice(0, 10)}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast({ title: 'Receipt downloaded' });
+  };
 
   return (
     <div className="w-full max-w-4xl mx-auto py-12 px-4 relative z-20 -mt-24">
@@ -616,6 +652,13 @@ export function AgentPipeline() {
                           >
                             <RefreshCw className="w-4 h-4" />
                             {t('sendAnother')}
+                          </button>
+                          <button
+                            onClick={handleDownloadReceipt}
+                            className="flex-1 inline-flex items-center justify-center gap-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-medium py-3 px-6 rounded-lg transition-all"
+                          >
+                            <Download className="w-4 h-4" />
+                            {t('downloadReceipt')}
                           </button>
                           {senderKey && (
                             <a
